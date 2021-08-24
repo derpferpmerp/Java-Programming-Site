@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class Project01 {
 
-  public static void main(String args[]) {
+  public static void main(String[] args) {
 
     String name = JOptionPane.showInputDialog("What is your name?");
 

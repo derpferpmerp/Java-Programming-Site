@@ -6,22 +6,20 @@ public class Project04 {
 		double c = 5;
 		double c2 = c/9;
 		double c3 = (fah - 32);
-		double c4 = c2 * c3;
-		return c4;
+		return c2 * c3;
 	}
    
 	public static double CtoF(double cel) {
 		double f = 9;
 		double f2p1 = f/5;
 		double f3 = f2p1 * cel;
-		double f4 = f3 + 32;
-		return f4;
+		return f3 + 32;
 	}
    
   
    
    
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		String fInput = JOptionPane.showInputDialog("Enter a temperature in Fahrenheit");
 		double fVal = Double.parseDouble(fInput);
 		
