@@ -1,7 +1,7 @@
 import java.util.*;
 import static javax.swing.JOptionPane.*;
 
-class HelloWorld {
+class Project08 {
 	
 	public static Object top(List<Integer> lst, Integer amt) {
 		Collections.sort(lst);
@@ -14,8 +14,7 @@ class HelloWorld {
 		}
 		String lstout = String.join(", ", lststrs);
 		int maxchar = Collections.max(lst);
-		String lstoutf = lstout.replace(", "+maxchar, ", and "+maxchar);
-		return lstoutf;
+		return lstout.replace(", " + maxchar, ", and " + maxchar);
 	}
 	
 	
@@ -37,9 +36,9 @@ class HelloWorld {
 		String top2 = String.valueOf(top(list,2));
 		boolean conts = top2.contains(", "+a) || top2.contains(", and "+a) || top2.toLowerCase().startsWith(a+",");
 
-		System.out.printf(a+" is%1$s in the top two of %2$s",(!conts) ? " NOT" : "",top(list,4));
-		System.out.println("\n");
-		System.out.printf("Again, "+a+" is%1$s in the top two of %2$s",(!conts) ? " NOT" : "",top(list,4));
-		System.out.println("\n");
+		for (String s : Arrays.asList(a + " is%1$s in the top two of %2$s", "Again, " + a + " is%1$s in the top two of %2$s")) {
+			System.out.printf(s,(!conts) ? " NOT" : "",top(list,4));
+			System.out.println("\n");
+		}
 	}
 }

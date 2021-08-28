@@ -1,7 +1,7 @@
 import java.util.*;
 import static javax.swing.JOptionPane.*;
 
-public class Main {
+public class Project10 {
 
 	public static Map<String, String> Person(Integer n, String addy) {
 		Map<String, String> tmp = new HashMap<>();
@@ -9,14 +9,14 @@ public class Main {
 		String ln = showInputDialog("Enter the Last Name for Contact #"+n);
 		tmp.put("First",fn);
 		tmp.put("Last",ln);
-		if (addy=="False") {
+		if (Objects.equals(addy, "False")) {
 			String hpn = showInputDialog("Enter the Home Phone Number for "+fn);
 			String mpn = showInputDialog("Enter the Mobile Phone Number for "+fn);
 			tmp.put("HNumber",hpn);
 			tmp.put("MNumber",mpn);
 			return tmp;
 		}
-		if (addy=="True") {
+		if (Objects.equals(addy, "True")) {
 			String sadd = showInputDialog("Enter the Street Address where "+fn+" lives");
 			String city = showInputDialog("Enter the City where "+fn+" lives");
 			String state = showInputDialog("Enter the State where "+fn+" lives");
@@ -37,10 +37,10 @@ public class Main {
 		maps.put("Contact1",Person(1, "False"));
 		maps.put("Contact2",Person(2, "True"));
 		maps.put("Contact3",Person(3, "None"));
-		System.out.println(maps.get("Contact1").get("Last"));
-		System.out.println(maps.get("Contact3").get("Last"));
-		System.out.println(maps.get("Contact1").get("First"));
-		System.out.println(maps.get("Contact3").get("First"));
+		for (String s : Arrays.asList("Last", "First")) {
+			System.out.println(maps.get("Contact1").get(s));
+			System.out.println(maps.get("Contact3").get(s));
+		}
 		String L1 = maps.get("Contact1").get("Last");
 		String L3 = maps.get("Contact3").get("Last");
 		String F1 = maps.get("Contact1").get("First");
@@ -52,7 +52,7 @@ public class Main {
 			showMessageDialog(null,String.format("%1$s\nHome: %2$s\nMobile: %3$s",F1+" "+L1,hnum,mnum));
 		}
 		else {
-			showMessageDialog(null,"[DEV] Contacts Don\'t Match","Error",WARNING_MESSAGE);
+			showMessageDialog(null, "[DEV] Contacts Don't Match","Error",WARNING_MESSAGE);
 		}
 	}
 }
