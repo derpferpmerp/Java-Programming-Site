@@ -8,7 +8,7 @@ public class Project03 {
     }
     
     
-    public static void main(String args[])
+    public static void main(String[] args)
     {
        printNcharacters("@", 12);
        printNcharacters("*", 3);
