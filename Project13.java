@@ -2,6 +2,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 public class Project13 {
+
 	public static List<Integer> multMatch(String input, String mchar) {
 		List<Integer> matches = new ArrayList<>();
 		for (int i = 0; i < input.length(); i++) {
@@ -11,7 +12,6 @@ public class Project13 {
 		}
 		return matches;
 	}
-
 
 
 	public static void main(String[] args) {
