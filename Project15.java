@@ -1,5 +1,6 @@
 import java.text.MessageFormat;
 import java.util.*;
+import static javax.swing.JOptionPane.*;
 
 public class Project15 {
 
@@ -34,8 +35,10 @@ public class Project15 {
     }
     
     public static List<Integer> withoutOverlap(String inp, String pat) {
+
         List<Integer> rWith = withOverlap(inp,pat,true);
         List<List<Integer>> chrList = new ArrayList<>();
+
         for (Integer sCoord : rWith) {
             List<Integer> tmp = new ArrayList<>();
             for (int g = 0; g < pat.length(); g++) {
@@ -43,23 +46,24 @@ public class Project15 {
             }
             chrList.add(tmp);
         }
+
         List<Integer> alreadyContains = new ArrayList<>();
         List<Integer> fParsed = new ArrayList<>();
+
         for (List<Integer> tmpCrdList : chrList) {
             boolean isInvalid = false;
             for (Integer integer : tmpCrdList) {
-                if (!alreadyContains.contains(integer)) {
+                if (!alreadyContains.contains(integer) && !isInvalid) {
                     alreadyContains.add(integer);
                 } else {
-                    isInvalid = true;
+                    isInvalid=true;
                 }
             }
             if (!isInvalid) {
                 fParsed.add(tmpCrdList.get(0));
             }
         }
-        
-        
+
         return fParsed;
     }
     
@@ -70,8 +74,8 @@ public class Project15 {
     }
     
     public static void main(String[] args) {
-        String og = "aaabaa";
-        String pattern = "aa";
+        String og = showInputDialog("String to Search");
+        String pattern = showInputDialog("Pattern to Look For");
         
         Integer withOverlapAmount = withOverlap(og,pattern,false).get(0);
         Integer withoutOverlapAmount = withoutOverlap(og,pattern).size();
