@@ -27,6 +27,7 @@ public class Project14 {
 
 	}
 	public static void main(String[] args) {
+		RandOccurence(10);
 		RandomSum(200);
 	}
 }
