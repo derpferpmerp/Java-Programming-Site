@@ -14,7 +14,7 @@ public class Project18 {
 				matchIndexes.add(i);
 			}
 		}
-		Integer amtMatches = matchIndexes.size();
+		int amtMatches = matchIndexes.size();
 		Integer matchedIndex = (amtMatches == 0) ? (-1) : (matchIndexes.get(0));
 		return Arrays.asList(amtMatches, matchedIndex);
 	}
@@ -25,11 +25,9 @@ public class Project18 {
 			outl.add(String.valueOf(inp.charAt(i)));
 		}
 		int[] maxValLST = outl.stream().mapToInt(Integer::valueOf).toArray();
-		List<Integer> list = IntStream.of(maxValLST).boxed().collect(Collectors.toList());
-		List<Integer> sorted = list;
-		Collections.sort(sorted);
-		Collections.reverse(sorted);
-		return Arrays.asList(sorted,list);
+		List<Integer> list = IntStream.of(maxValLST).boxed().sorted().collect(Collectors.toList());
+		Collections.reverse(list);
+		return Arrays.asList(list,list);
 	}
 
 	public static String weirdSum(String inp) {
@@ -40,10 +38,11 @@ public class Project18 {
 		Integer sChar = Integer.parseInt(String.valueOf(inp.charAt(1)));
 		outList.add(String.valueOf(fChar+sChar));
 		for (int i=1; i<inp.length();i++) {
-			if (Integer.parseInt(String.valueOf(inp.charAt(i))) == maxVal) {
+			int i1 = Integer.parseInt(String.valueOf(inp.charAt(i)));
+			if (i1 == maxVal) {
 				outList.add(String.valueOf(2*maxVal));
 			} else {
-				Integer chr1 = Integer.parseInt(String.valueOf(inp.charAt(i)));
+				Integer chr1 = i1;
 				Integer chr2 = Integer.parseInt(String.valueOf(inp.charAt(i-1)));
 				Integer chr3 = chr1 + chr2;
 				outList.add(String.valueOf(chr3));
@@ -64,11 +63,11 @@ public class Project18 {
 		}
 		
 		List<String> out = new ArrayList<>();
-		for (int i=0; i<inList.size(); i++) {
-			if (inList.get(i).equals(maxChar)) {
+		for (Integer integer : inList) {
+			if (integer.equals(maxChar)) {
 				out.add(String.valueOf(0));
 			} else {
-				out.add(String.valueOf(inList.get(i)));
+				out.add(String.valueOf(integer));
 			}
 		}
 		
@@ -80,7 +79,10 @@ public class Project18 {
 		boolean done = false;
 		String chr2Search = "7";
 		List<Integer> occurences = fOccurence(inp, chr2Search);
-		System.out.println(MessageFormat.format("The First Occurence of {0} in the Array is {1}\n\n{0} Occurs {2} Times in the Array",chr2Search,occurences.get(1),occurences.get(0)));
+		System.out.println(MessageFormat.format("""
+				The First Occurrence of {0} in the Array is {1}
+				{0} Occurs {2} Times in the Array""",chr2Search,occurences.get(1),occurences.get(0)
+		));
 		System.out.println(weirdSum(inp));
 		System.out.println(weirdDisplay(inp));
 	}
