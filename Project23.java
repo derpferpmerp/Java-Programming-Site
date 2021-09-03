@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.regex.*;
 import java.text.MessageFormat;
 
-class HelloWorld {
+public class Project23 {
 	public static Map<String,Double> getCo(String inp) {
 		Pattern xCoPat = Pattern.compile("[-+.\\d]+(?=x)");
 		Pattern yCoPat = Pattern.compile("[-+.\\d]+(?=y)");
