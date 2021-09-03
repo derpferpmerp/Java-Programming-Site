@@ -1,7 +1,6 @@
 import java.util.*;
 import java.util.regex.*;
 import java.text.MessageFormat;
-import static javax.swing.JOptionPane.*;
 
 class HelloWorld {
 	public static Map<String,Double> getCo(String inp) {
@@ -64,8 +63,8 @@ class HelloWorld {
 				double yIntInit = Double.parseDouble(splitted.get(other));
 				double slope = ((double) xCo)/((double) yCo);
 				double yInt = ((double) yIntInit) / ((double) yCo);
-				String yIntOut = (yInt >= 0.0) ? "+" : "";
-				yIntOut += String.valueOf(yInt);
+				String yIntOut = (yInt >= 0.0) ? "+" : "-";
+				yIntOut += String.valueOf(Math.abs(yInt));
 				out.put("Y-INT",yIntOut);
 				out.put("EQ","y = "+slope+"x"+yIntOut);
 				out.put("SLOPE",String.valueOf(slope));
@@ -102,7 +101,7 @@ class HelloWorld {
 	}
 	
 	public static void main(String[] args) {
-		String input = showInputDialog("Enter an Equation");
+		String input = "-6y=7";
 		genLine(input);
 	}
 }
