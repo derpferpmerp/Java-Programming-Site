@@ -5,11 +5,8 @@ import java.util.*;
 public class Project21 {
 
 	public static void main(String[] args) {
-		//int num = Integer.parseInt(javax.swing.JOptionPane.showInputDialog("Enter A Number"));
-		for (int numitr = 1; numitr <= 300; numitr++) {
-			int num = numitr * 10;
-			System.out.println(java.text.MessageFormat.format("{0} in Roman Numerals Is: {1}", num, rom(num)));
-		}
+		int num = Integer.parseInt(javax.swing.JOptionPane.showInputDialog("Enter A Number"));
+		System.out.println(java.text.MessageFormat.format("{0} in Roman Numerals Is: {1}", num, rom(num)));
 	}
 
 	public static List<String> closestToNum(Integer num, List<Integer> integers, List<String> map2) {
