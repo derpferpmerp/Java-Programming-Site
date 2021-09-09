@@ -1,33 +1,11 @@
 import java.io.IOException;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import java.net.*;
+import java.nio.file.*;
 import java.text.MessageFormat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
-import static javax.swing.JOptionPane.OK_OPTION;
-import static javax.swing.JOptionPane.PLAIN_MESSAGE;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showInputDialog;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JTextField;
+import static javax.swing.JOptionPane.*;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ContactManager {
