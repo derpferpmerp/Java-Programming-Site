@@ -1,12 +1,33 @@
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.*;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import java.text.MessageFormat;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
-import static javax.swing.JOptionPane.*;
-import javax.swing.*;
+
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.OK_OPTION;
+import static javax.swing.JOptionPane.PLAIN_MESSAGE;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showInputDialog;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ContactManager {
@@ -173,7 +194,7 @@ public class ContactManager {
 	}
 
 	private static void mainScreen(List<String> contactNames) throws IOException {
-		contactNames.addAll(Arrays.asList("New Contact", "Display Contacts", "Change Database File"));
+		contactNames.addAll(Arrays.asList("New Contact", "Display Contacts", "Sort Contacts", "Change Database File"));
 		Object[] contactObjList = contactNames.toArray();
 		JList<Object> contactNameSelectionList = new JList<>(contactObjList);
 		Object[] mainWindow = {
@@ -200,6 +221,25 @@ public class ContactManager {
 				displayContacts(parseFile(contactsFileName));
 			} else if (Objects.equals(contactName, "Change Database File")) {
 				changeDBFile();
+			} else if (Objects.equals(contactName, "Sort Contacts")) {
+				List<Map<String, String>> contacts = parseFile(contactsFileName);
+				Map<String,Map<String,String>> reGetMatches = new HashMap<>();
+
+				List<String> listToSort = new ArrayList<>();
+				for (Map<String, String> stringStringMap : contacts) {
+					String ln = stringStringMap.get("LN");
+					listToSort.add(ln);
+					reGetMatches.put(ln,stringStringMap);
+				}
+				List<String> sorted = listToSort.stream().sorted().collect(Collectors.toList());
+				List<Map<String, String>> sortedContacts = new ArrayList<>();
+				for (String s : sorted) {
+					Map<String, String> stringStringMap = reGetMatches.get(s);
+					sortedContacts.add(stringStringMap);
+				}
+				writeToFile(formatPeople(sortedContacts), contactsFileName);
+				List<String> cNames = sortedContacts.stream().map(contact -> contact.get("FN") + " " + contact.get("LN")).collect(Collectors.toList());
+				mainScreen(cNames);
 			} else if (!Objects.equals(contactName, "Quit") && !Objects.equals(contactName, null)) {
 				List<Map<String, String>> contacts = parseFile(contactsFileName);
 				Map<String, String> targetContact = new HashMap<>();
