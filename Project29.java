@@ -88,6 +88,7 @@ public class Project29 {
 				"Number Base (To):", numBaseAfterString
 		};
 		int confirm = showConfirmDialog(null, mainScreenData, "Number Base Converter", YES_NO_OPTION, PLAIN_MESSAGE, null);
+		if (confirm != YES_OPTION) { return confirm; }
 		String messageDialog = MessageFormat.format(
 				"{0} b{1} = {2} b{3}",
 				inputWithBase.getText(),
