@@ -230,7 +230,8 @@ public class ContactManager {
 				}
 				if (Objects.equals(chosenMethod, "Modify")) {
 					Map<String, String> textFieldValues = new HashMap<>();
-					for (String i : Arrays.asList("FN", "LN", "GE")) {
+					List<String> asList = Arrays.asList("FN", "LN", "GE");
+					for (String i : asList) {
 						textFieldValues.put(i, targetContact.get(i));
 					}
 					textFieldValues.put("ID", targetContact.get("PN"));
