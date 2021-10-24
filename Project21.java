@@ -1,6 +1,6 @@
 import java.util.*;
 
-// USES 9 SEMICOLONS INCLUDING IMPORTS
+// USES 12 SEMICOLONS INCLUDING IMPORTS
 
 public class Project21 {
 
@@ -10,19 +10,22 @@ public class Project21 {
 	}
 
 	public static List<String> closestToNum(Integer num, List<Integer> integers, List<String> map2) {
-		return List.of(
-				map2.get(integers.indexOf(
-						integers.stream()
-							.filter(integer -> integer <= num)
-							.findFirst()
-							.orElse(0)
-				)),
-				String.valueOf(integers.stream()
-						.filter(integer -> integer <= num)
-						.findFirst()
-						.orElse(0)
-				)
-		);
+		for (Integer integer1 : integers) {
+			if (integer1 <= num) {
+				for (Integer integer : integers) {
+					if (integer <= num) {
+						return List.of(map2.get(integers.indexOf(integer1)), String.valueOf(integer));
+					}
+				}
+				return List.of(map2.get(integers.indexOf(integer1)), String.valueOf(0));
+			}
+		}
+		for (Integer integer : integers) {
+			if (integer <= num) {
+				return List.of(map2.get(integers.indexOf(0)), String.valueOf(integer));
+			}
+		}
+		return List.of(map2.get(integers.indexOf(0)), String.valueOf(0));
 	}
 
 	public static String rom(int number) {

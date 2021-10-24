@@ -21,12 +21,35 @@ public class Project19 {
 		return list;
 	}
 
-	public static Integer max(List<Integer> lst) {
-		return Collections.max(lst);
+	public static ArrayList<String> reverse(List<String> lst) {
+		ArrayList<String> lout = new ArrayList<>();
+		for (int i = lst.size() - 1; i >= 0; i--) {
+			lout.add(lst.get(i));
+		}
+		return lout;
 	}
 
-	public static Integer minIndex(List<Integer> lst) {
-		return lst.indexOf(Collections.min(lst));
+	public static Integer max(List<Integer> lst) {
+		int greatest = lst.get(0);
+		for (Integer pos : lst) {
+			if ( pos > greatest ) {
+				greatest = pos;
+			}
+		}
+		return greatest;
+	}
+
+	public static List<Integer> minIndex(List<Integer> lst) {
+		int smallest = lst.get(0);
+		int indx = 0;
+		for (int i = lst.size() - 1; i > 0; i--) {
+			Integer pos = lst.get(i);
+			if (pos < smallest) {
+				smallest = pos;
+				indx = i;
+			}
+		}
+		return Arrays.asList(smallest,indx);
 	}
 
 	public static String posInList(List<Integer> lst, Integer chr2Get) {
@@ -43,9 +66,17 @@ public class Project19 {
 	}
 
 	public static String weirdRot(List<Integer> input, Integer pos, Boolean rMain) {
-		List<String> listB = input.subList(0,pos).stream().map(String::valueOf).collect(toCollection(ArrayList::new));
+		List<String> listB = new ArrayList<>();
+		for (Integer integer2 : input.subList(0, pos)) {
+			String of = String.valueOf(integer2);
+			listB.add(of);
+		}
 		List<String> listM = List.of(String.valueOf(input.get(pos)));
-		List<String> listE = input.subList(pos+1,input.size()).stream().map(String::valueOf).collect(toCollection(ArrayList::new));
+		List<String> listE = new ArrayList<>();
+		for (Integer integer1 : input.subList(pos + 1, input.size())) {
+			String valueOf = String.valueOf(integer1);
+			listE.add(valueOf);
+		}
 
 		Integer amountValid = Collections.min(List.of(listB.size(),listE.size()));
 		List<String> begNoFlip = listB.subList(0, listB.size()-amountValid);
@@ -54,9 +85,14 @@ public class Project19 {
 
 		List<String> endNoFlip = listE.subList(amountValid, listE.size());
 		List<String> endFlip = listE.subList(0, amountValid);
-		Collections.reverse(endFlip);
+		endFlip = reverse(endFlip);
 		if (rMain) {
-			System.out.println(String.join(" ", input.stream().map(String::valueOf).toList()));
+			List<String> list = new ArrayList<>();
+			for (Integer integer : input) {
+				String s = String.valueOf(integer);
+				list.add(s);
+			}
+			System.out.println(String.join(" ", list));
 		}
 		return MessageFormat.format("{0} {1} {2} {3} {4}",
 				String.join(" ", begNoFlip),
@@ -64,7 +100,7 @@ public class Project19 {
 				String.join(" ", listM),
 				String.join(" ", begFlip),
 				String.join(" ", endNoFlip)
-				);
+		);
 	}
 
 	public static String adjacent(List<Integer> input, Integer pos) {
@@ -99,7 +135,7 @@ public class Project19 {
 				Adjacent Values Swapped: {6}
 				""",
 				max(genList),
-				minIndex(genList),
+				minIndex(genList).get(1),
 				12,
 				posInList(genList,12),
 				pos2Rot,

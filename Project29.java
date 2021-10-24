@@ -5,10 +5,17 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.reverse;
 import static javax.swing.JOptionPane.*;
 
 public class Project29 {
+
+	public static ArrayList<Integer> reverse(List<Integer> lst) {
+		ArrayList<Integer> lout = new ArrayList<>();
+		for (int i = lst.size() - 1; i >= 0; i--) {
+			lout.add(lst.get(i));
+		}
+		return lout;
+	}
 
 	private static final List<String> mappedValues = Arrays.asList("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","x","y","z");
 	private static final List<Integer> mappedKeys = Arrays.asList(10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60);
@@ -48,8 +55,16 @@ public class Project29 {
 	public static String uncompress(String input) {
 
 		String[] lst = input.split("");
-		List<Integer> outList = Arrays.stream(lst).map(s -> mappedValues.contains(s) ? lCharToNum.get(s) : Integer.valueOf(Integer.parseInt(s))).collect(Collectors.toList());
-		List<String> out = outList.stream().map(String::valueOf).collect(Collectors.toList());
+		List<Integer> outList = new ArrayList<>();
+		for (String s : lst) {
+			Integer integer = mappedValues.contains(s) ? lCharToNum.get(s) : Integer.valueOf(Integer.parseInt(s));
+			outList.add(integer);
+		}
+		List<String> out = new ArrayList<>();
+		for (Integer integer : outList) {
+			String s = String.valueOf(integer);
+			out.add(s);
+		}
 		return String.join("",out);
 
 	}
@@ -65,7 +80,7 @@ public class Project29 {
 			nDiv = (int) Math.floor(nDiv);
 			lst.add(rem);
 		} while (nDiv > 0);
-		reverse(lst);
+		lst = reverse(lst);
 		return compress(lst);
 	}
 

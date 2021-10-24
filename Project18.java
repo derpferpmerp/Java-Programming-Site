@@ -1,8 +1,7 @@
 import java.util.*;
 import java.text.MessageFormat;
-import java.util.stream.*;
-import java.io.*;
 import java.lang.*;
+import static javax.swing.JOptionPane.*;
 
 public class Project18 {
 	public static List<Integer> fOccurence(String inp, String chr) {
@@ -19,14 +18,34 @@ public class Project18 {
 		return Arrays.asList(amtMatches, matchedIndex);
 	}
 
+	public static ArrayList<Integer> reverse(List<Integer> lst) {
+		ArrayList<Integer> lout = new ArrayList<>();
+		for (int i = lst.size() - 1; i >= 0; i--) {
+			lout.add(lst.get(i));
+		}
+		return lout;
+	}
+
 	public static List<List<Integer>> str2ListInt(String inp) {
 		List<String> outl = new ArrayList<>();
 		for (int i=0; i<inp.length(); i++) {
 			outl.add(String.valueOf(inp.charAt(i)));
 		}
-		int[] maxValLST = outl.stream().mapToInt(Integer::valueOf).toArray();
-		List<Integer> list = IntStream.of(maxValLST).boxed().sorted().collect(Collectors.toList());
-		Collections.reverse(list);
+		int[] maxValLST = new int[10];
+		int count = 0;
+		for (String s : outl) {
+			int valueOf = Integer.parseInt(s);
+			if (maxValLST.length == count) maxValLST = Arrays.copyOf(maxValLST, count * 2);
+			maxValLST[count++] = valueOf;
+		}
+		maxValLST = Arrays.copyOfRange(maxValLST, 0, count);
+		List<Integer> list = new ArrayList<>();
+		for (int i : maxValLST) {
+			Integer integer = i;
+			list.add(integer);
+		}
+		list.sort(null);
+		list = reverse(list);
 		return Arrays.asList(list,list);
 	}
 
@@ -55,7 +74,7 @@ public class Project18 {
 		List<List<Integer>> lst = str2ListInt(inp);
 		int maxChar = lst.get(0).get(0);
 		List<Integer> inList = lst.get(0);
-		Collections.reverse(inList);
+		inList = reverse(inList);
 		List<Integer> lstSDisplay = lst.get(1);
 		List<String> outStringTest = new ArrayList<>();
 		for (int i=inp.length()-1; i>=0;i--) {
@@ -74,10 +93,10 @@ public class Project18 {
 		return String.join(" ",out) + "\n" + String.join(" ",outStringTest);
 	}
 	public static void main(String[] args) {
-		String inp = "1727737774";
+		String inp = showInputDialog(null,"Enter A String");
 		Integer fOccur = 0;
 		boolean done = false;
-		String chr2Search = "7";
+		String chr2Search = showInputDialog("Enter A Search Character");
 		List<Integer> occurences = fOccurence(inp, chr2Search);
 		System.out.println(MessageFormat.format("""
 				The First Occurrence of {0} in the Array is {1}

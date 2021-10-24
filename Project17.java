@@ -5,16 +5,24 @@ import static javax.swing.JOptionPane.*;
 public class Project17 {
 
 	public static int sum(List<Integer> lst) {
-		return lst.stream().mapToInt(Integer::valueOf).sum();
+		int sum = 0;
+		for (Integer integer : lst) {
+			int valueOf = integer;
+			sum += valueOf;
+		}
+		return sum;
 	}
 
 	public static String checkRoll(List<Integer> rolls, Map<Integer,String> winList) {
 		Integer summed = sum(rolls);
-		return switch (winList.get(summed)) {
-			case "WIN" -> "You Win!";
-			case "LOSE" -> "Sorry, You Rolled A " + summed;
-			default -> "NONE";
-		};
+		switch (winList.get(summed)) {
+			case "WIN":
+				return "You Win!";
+			case "LOSE":
+				return "Sorry, You Rolled A " + summed;
+			default:
+				return "NONE";
+		}
 
 	}
 

@@ -65,11 +65,24 @@ public class Project24 {
 	}
 
 	public static String formatPeople(List<Map<String,String>> input, Integer form) {
-		return switch (form) {
-			case 1 -> input.size() + "\n" + input.stream().map(person -> MessageFormat.format("{0} {1} {2} {3}\n", person.get("ID"), person.get("FN"), person.get("LN"), person.get("GE"))).collect(Collectors.joining());
-			case 2 -> input.size() + "\n" + input.stream().map(person -> MessageFormat.format("{0}\n{1} {2}\n{3}\n", person.get("ID"), person.get("FN"), person.get("LN"), person.get("GE"))).collect(Collectors.joining());
-			default -> "INVALID";
-		};
+		switch (form) {
+			case 1:
+				StringBuilder sb = new StringBuilder();
+				for (Map<String, String> person : input) {
+					String format = MessageFormat.format("{0} {1} {2} {3}\n", person.get("ID"), person.get("FN"), person.get("LN"), person.get("GE"));
+					sb.append(format);
+				}
+				return input.size() + "\n" + sb;
+			case 2:
+				StringBuilder result = new StringBuilder();
+				for (Map<String, String> person : input) {
+					String format = MessageFormat.format("{0}\n{1} {2}\n{3}\n", person.get("ID"), person.get("FN"), person.get("LN"), person.get("GE"));
+					result.append(format);
+				}
+				return input.size() + "\n" + result;
+			default:
+				return "INVALID";
+		}
 	}
 
 	public static void outputToFile(Integer peopleAmount, String filename) throws IOException {

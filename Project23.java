@@ -22,13 +22,8 @@ public class Project23 {
 	}
 
 	private static double getxCo(Matcher matchX, double xCo) {
-		double yCo;
 		if (matchX.find()) {
-			if (Objects.equals(matchX.group(), "-")) {
-				yCo = -1.0;
-			} else if (Objects.equals(matchX.group(), "+")) {
-				yCo = 1.0;
-			} else {
+			if (!Objects.equals(matchX.group(), "-") && !Objects.equals(matchX.group(), "+")) {
 				String matchXString = matchX.group();
 				if (matchXString.contains("+")) {
 					String cropped = matchXString.substring(1);

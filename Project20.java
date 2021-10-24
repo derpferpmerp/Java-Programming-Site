@@ -17,9 +17,13 @@ public class Project20 {
 	public static void main(String[] args) {
 		int amountOfNumbers = Integer.parseInt(showInputDialog("How Many Numbers Do You Want to Sort?"));
 		List<Integer> randomNumbers = genRandList(amountOfNumbers);
-		List<String> randOut = randomNumbers.stream().map(String::valueOf).collect(toCollection(ArrayList::new));
+		List<String> randOut = new ArrayList<>();
+		for (Integer randomNumber : randomNumbers) {
+			String s = String.valueOf(randomNumber);
+			randOut.add(s);
+		}
 		System.out.println("Unsorted: " + randOut);
-		Collections.sort(randomNumbers);
+		randomNumbers.sort(null);
 		System.out.println("Sorted: " + randomNumbers);
 	}
 }

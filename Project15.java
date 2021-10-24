@@ -69,8 +69,11 @@ public class Project15 {
     
     public static String reverse(String s) {
         List<String> list = new ArrayList<>(Arrays.asList(s.split("")));
-        Collections.reverse(list);
-        return String.join("", list);
+        List<String> lout = new ArrayList<>();
+        for (int i = list.size() - 1; i >= 0; i--) {
+            lout.add(list.get(i));
+        }
+        return String.join("", lout);
     }
     
     public static void main(String[] args) {
