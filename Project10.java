@@ -4,7 +4,7 @@ import static javax.swing.JOptionPane.*;
 public class Project10 {
 
 	public static Map<String, String> Person(Integer n, String addy) {
-		Map<String, String> tmp = new HashMap<>();
+		Map<String, String> tmp = new HashMap<String, String>();
 		String fn = showInputDialog("Enter the First Name for Contact #"+n);
 		String ln = showInputDialog("Enter the Last Name for Contact #"+n);
 		tmp.put("First",fn);
@@ -32,8 +32,7 @@ public class Project10 {
 
 	public static void main(String[] args) {
 
-		Map<String, Map<String, String>> maps;
-		maps = new HashMap<>();
+		Map<String, Map<String, String>> maps = new HashMap<String, Map<String, String>>();
 		maps.put("Contact1",Person(1, "False"));
 		maps.put("Contact2",Person(2, "True"));
 		maps.put("Contact3",Person(3, "None"));
