@@ -3,7 +3,6 @@ import java.net.*;
 import java.nio.file.*;
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 import static javax.swing.JOptionPane.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,7 +25,7 @@ public class ContactManager {
 		fileChooser.showOpenDialog(null);
 		dbFileLocation = fileChooser.getSelectedFile().getName();
 		List<Map<String,String>> parsedData = parseFile(dbFileLocation);
-		List<String> names = new ArrayList<>();
+		List<String> names = new ArrayList<String>();
 		for (Map<String,String> contact : parsedData) {
 			names.add(contact.get("FN")+" "+contact.get("LN"));
 		}
@@ -47,21 +46,24 @@ public class ContactManager {
 
 	private static List<String> randList(Integer amt) {
 		Random idGenerator = new Random();
-		List<String> list = new ArrayList<>();
+		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < amt; i++) {
 			Integer integer = idGenerator.nextInt(9) + 1;
-			switch (i) {
-				case 0 -> list.add("(" + integer);
-				case 2 -> list.add(integer + ")-");
-				case 6 -> list.add("-" + integer);
-				default -> list.add(String.valueOf(integer));
+			if (i == 0) {
+				list.add("(" + integer);
+			} else if (i == 2) {
+				list.add(integer + ")-");
+			} else if (i == 6) {
+				list.add("-" + integer);
+			} else {
+				list.add(String.valueOf(integer));
 			}
 		}
 		return list;
 	}
 
 	private static Map<String,String> newEntry(Integer itr, List<String> ids) {
-		Map<String,String> out = new HashMap<>();
+		Map<String,String> out = new HashMap<String, String>();
 		Random genderChooser = new Random();
 		int idLength = 10;
 		String id = String.join("",randList(idLength));
@@ -83,11 +85,23 @@ public class ContactManager {
 	}
 
 	private static List<String> safeRemove(List<Map<String,String>> list, Map<String,String> item) {
-		return list.stream().filter(s -> !Objects.equals(item, s)).map(String::valueOf).collect(Collectors.toList());
+		List<String> result = new ArrayList<>();
+		for (Map<String, String> s : list) {
+			if (!Objects.equals(item, s)) {
+				String valueOf = String.valueOf(s);
+				result.add(valueOf);
+			}
+		}
+		return result;
 	}
 
 	private static String formatPeople(List<Map<String, String>> input) {
-		return input.size() + "\n" + input.stream().map(person -> MessageFormat.format("{0} {1} {2} {3}\n", person.get("FN"), person.get("LN"), person.get("PN"), person.get("GE"))).collect(Collectors.joining());
+		StringBuilder sb = new StringBuilder();
+		for (Map<String, String> person : input) {
+			String format = MessageFormat.format("{0} {1} {2} {3}\n", person.get("FN"), person.get("LN"), person.get("PN"), person.get("GE"));
+			sb.append(format);
+		}
+		return String.format("%d\n%s", input.size(), sb.toString());
 	}
 
 	// Parses the File `filename`, grabs list of contacts, Opens Up new GUI window with Input Text Boxes for each value in the Contacts, adds created contact to list of parsed contacts, then updates the infile with the new edited formatted contact list.
@@ -98,7 +112,7 @@ public class ContactManager {
 		JTextField lName = new JTextField(textFieldValues.get("LN"));
 
 		String[] genders = {"M", "F"};
-		JList<String> genderList = new JList<>(genders);
+		JList<String> genderList = new JList<String>(genders);
 
 		Object[] win = {
 				contactsIcon,
@@ -110,7 +124,7 @@ public class ContactManager {
 		genderList.setSelectedValue(textFieldValues.get("GE"),true);
 		int option = showConfirmDialog(null, win, "Modify Contact", OK_CANCEL_OPTION, PLAIN_MESSAGE,null);
 		if (option == OK_OPTION) {
-			Map<String, String> output = new HashMap<>();
+			Map<String, String> output = new HashMap<String, String>();
 			output.put("PN",ID.getText());
 			output.put("FN",fName.getText());
 			output.put("LN",lName.getText());
@@ -133,7 +147,7 @@ public class ContactManager {
 	}
 
 	private static void listInitializer(List<Map<String, String>> contacts) throws IOException {
-		List<String> contactNames = new ArrayList<>();
+		List<String> contactNames = new ArrayList<String>();
 		for (Map<String, String> contact : contacts) {
 			String itm = contact.get("FN") + " " + contact.get("LN");
 			contactNames.add(itm);
@@ -145,11 +159,11 @@ public class ContactManager {
 	private static List<Map<String,String>> parseFile(String filename) throws IOException {
 		String content = new String(Files.readAllBytes(Paths.get(filename)));
 		List<String> byLine = Arrays.asList(content.split("\n"));
-		List<Map<String,String>> contacts = new ArrayList<>();
+		List<Map<String,String>> contacts = new ArrayList<Map<String, String>>();
 
 		for (int i=1; i<byLine.size(); i++) {
 			List<String> splittedLine = Arrays.asList(byLine.get(i).split(" "));
-			Map<String, String> contact = new HashMap<>();
+			Map<String, String> contact = new HashMap<String, String>();
 			contact.put("FN",splittedLine.get(0));
 			contact.put("LN",splittedLine.get(1));
 			contact.put("PN",splittedLine.get(2));
@@ -161,7 +175,7 @@ public class ContactManager {
 	}
 
 	private static void displayContacts(List<Map<String,String>> contacts) throws IOException {
-		List<String> cNames = new ArrayList<>();
+		List<String> cNames = new ArrayList<String>();
 		for (Map<String, String> contact : contacts) {
 			String fullName = contact.get("FN") + " " + contact.get("LN");
 			String gender = contact.get("GE");
@@ -174,7 +188,7 @@ public class ContactManager {
 	private static void mainScreen(List<String> contactNames) throws IOException {
 		contactNames.addAll(Arrays.asList("New Contact", "Display Contacts", "Sort Contacts", "Change Database File"));
 		Object[] contactObjList = contactNames.toArray();
-		JList<Object> contactNameSelectionList = new JList<>(contactObjList);
+		JList<Object> contactNameSelectionList = new JList<Object>(contactObjList);
 		Object[] mainWindow = {
 				contactsIcon,
 				"Choose A Contact",
@@ -187,7 +201,7 @@ public class ContactManager {
 
 			if (Objects.equals(contactName, "New Contact")) {
 
-				Map<String, String> textFieldValues = new HashMap<>();
+				Map<String, String> textFieldValues = new HashMap<String, String>();
 				for (String i : Arrays.asList("ID", "FN", "LN")) {
 					textFieldValues.put(i, "");
 				}
@@ -201,26 +215,31 @@ public class ContactManager {
 				changeDBFile();
 			} else if (Objects.equals(contactName, "Sort Contacts")) {
 				List<Map<String, String>> contacts = parseFile(contactsFileName);
-				Map<String,Map<String,String>> reGetMatches = new HashMap<>();
+				Map<String,Map<String,String>> reGetMatches = new HashMap<String, Map<String, String>>();
 
-				List<String> listToSort = new ArrayList<>();
+				List<String> listToSort = new ArrayList<String>();
 				for (Map<String, String> stringStringMap : contacts) {
 					String ln = stringStringMap.get("LN");
 					listToSort.add(ln);
 					reGetMatches.put(ln,stringStringMap);
 				}
-				List<String> sorted = listToSort.stream().sorted().collect(Collectors.toList());
-				List<Map<String, String>> sortedContacts = new ArrayList<>();
+				List<String> sorted = new ArrayList<>(listToSort);
+				sorted.sort(null);
+				List<Map<String, String>> sortedContacts = new ArrayList<Map<String, String>>();
 				for (String s : sorted) {
 					Map<String, String> stringStringMap = reGetMatches.get(s);
 					sortedContacts.add(stringStringMap);
 				}
 				writeToFile(formatPeople(sortedContacts), contactsFileName);
-				List<String> cNames = sortedContacts.stream().map(contact -> contact.get("FN") + " " + contact.get("LN")).collect(Collectors.toList());
+				List<String> cNames = new ArrayList<>();
+				for (Map<String, String> contact : sortedContacts) {
+					String s = contact.get("FN") + " " + contact.get("LN");
+					cNames.add(s);
+				}
 				mainScreen(cNames);
 			} else if (!Objects.equals(contactName, "Quit") && !Objects.equals(contactName, null)) {
 				List<Map<String, String>> contacts = parseFile(contactsFileName);
-				Map<String, String> targetContact = new HashMap<>();
+				Map<String, String> targetContact = new HashMap<String, String>();
 				String chosenMethod = chooseMethod();
 				for (Map<String, String> contact : contacts) {
 					String shouldbe = contact.get("FN") + " " + contact.get("LN");
@@ -229,7 +248,7 @@ public class ContactManager {
 					}
 				}
 				if (Objects.equals(chosenMethod, "Modify")) {
-					Map<String, String> textFieldValues = new HashMap<>();
+					Map<String, String> textFieldValues = new HashMap<String, String>();
 					List<String> asList = Arrays.asList("FN", "LN", "GE");
 					for (String i : asList) {
 						textFieldValues.put(i, targetContact.get(i));
@@ -239,7 +258,11 @@ public class ContactManager {
 				} else {
 					contacts.remove(targetContact);
 					writeToFile(formatPeople(contacts), contactsFileName);
-					List<String> cNames = contacts.stream().map(contact -> contact.get("FN") + " " + contact.get("LN")).collect(Collectors.toList());
+					List<String> cNames = new ArrayList<>();
+					for (Map<String, String> contact : contacts) {
+						String s = contact.get("FN") + " " + contact.get("LN");
+						cNames.add(s);
+					}
 					mainScreen(cNames);
 				}
 			}
@@ -252,9 +275,9 @@ public class ContactManager {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> names = new ArrayList<>();
-		List<String> ids = new ArrayList<>();
-		List<Map<String, String>> people = new ArrayList<>();
+		List<String> names = new ArrayList<String>();
+		List<String> ids = new ArrayList<String>();
+		List<Map<String, String>> people = new ArrayList<Map<String, String>>();
 		boolean doNotTry = false;
 		try { parseFile(dbFileLocation); } catch (IOException ignored) { doNotTry = true; }
 		if (doNotTry || parseFile(dbFileLocation).size() == 0) {

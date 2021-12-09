@@ -4,11 +4,16 @@ import java.text.MessageFormat;
 public class Project14 {
 
 	public static int sum(List<Integer> lst) {
-		return lst.stream().mapToInt(Integer::valueOf).sum();
+		int sum = 0;
+		for (Integer integer : lst) {
+			int valueOf = integer;
+			sum += valueOf;
+		}
+		return sum;
 	}
 	public static void RandOccurence(Integer num) {
 		Random rand = new Random();
-		List<Integer> generatedIntegers = new ArrayList<>();
+		List<Integer> generatedIntegers = new ArrayList<Integer>();
 		do {
 			Integer generated = rand.nextInt(20)+1;
 			generatedIntegers.add(generated);
@@ -18,7 +23,7 @@ public class Project14 {
 	}
 	public static void RandomSum(Integer num) {
 		Random rand = new Random();
-		List<Integer> generatedIntegers = new ArrayList<>();
+		List<Integer> generatedIntegers = new ArrayList<Integer>();
 		do {
 			Integer generated = rand.nextInt(20)+1;
 			generatedIntegers.add(generated);

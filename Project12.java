@@ -22,9 +22,8 @@ public class Project12 {
 	}
 
 	public static void pyramid(Integer n) {
-		List<String> out = new ArrayList<>();
 		for (int i = n; i > 0; i--) {
-			List<String> tempLst = new ArrayList<>();
+			List<String> tempLst = new ArrayList<String>();
 			for (int g = i; g > 0; g--) {
 				tempLst.add(String.valueOf(i));
 			}
@@ -35,7 +34,7 @@ public class Project12 {
 	}
 
 	public static List<String> primes(Integer n) {
-		List<String> primeNumbers = new ArrayList<>();
+		List<String> primeNumbers = new ArrayList<String>();
 		for (int i = 1; i < n; i++) {
 			boolean isPrime = true;
 			for (int j = 1; j < i; j++) {
@@ -53,9 +52,9 @@ public class Project12 {
 	}
 
 	public static Map<String,List<String>> upto(Integer num) {
-		Map<String, List<String>> outValues = new HashMap<>();
-		List<String> oddnums = new ArrayList<>();
-		List<String> twoOrThree = new ArrayList<>();
+		Map<String, List<String>> outValues = new HashMap<String, List<String>>();
+		List<String> oddnums = new ArrayList<String>();
+		List<String> twoOrThree = new ArrayList<String>();
 		for (int i = 0; i < num; i++) {
 			if (i % 2 != 0) {
 				oddnums.add(String.valueOf(i));
@@ -66,12 +65,14 @@ public class Project12 {
 		}
 		outValues.put("Odd Numbers",oddnums);
 
-		List<String> summed = List.of(String.valueOf(oddnums.stream().mapToInt(Integer::valueOf).sum()));
+		int sum = 0;
+		for (String oddnum : oddnums) {
+			int valueOf = Integer.parseInt(oddnum);
+			sum += valueOf;
+		}
+		List<String> summed = List.of(String.valueOf(sum));
 		outValues.put("Sum",summed);
-
 		outValues.put("DBy2Or3",twoOrThree);
-
-
 		return outValues;
 	}
 

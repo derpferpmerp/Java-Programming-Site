@@ -3,13 +3,13 @@ import static javax.swing.JOptionPane.*;
 
 public class Project11 {
 	public static Map<String,String> genDice(List<Integer> dice) {
-		List<Integer> randomDiceAmounts = new ArrayList<>();
+		List<Integer> randomDiceAmounts = new ArrayList<Integer>();
 		Random rand = new Random();
 		for (Integer amt: dice) {
 			randomDiceAmounts.add(rand.nextInt(amt) + 1);
 		}
 		Integer first = randomDiceAmounts.get(0);
-		List<String> outString = new ArrayList<>();
+		List<String> outString = new ArrayList<String>();
 		Integer sz = randomDiceAmounts.size();
 		for (int i = 0; i < randomDiceAmounts.size(); i++) {
 			if (i == 0) {
@@ -20,14 +20,13 @@ public class Project11 {
 				outString.add("a " + randomDiceAmounts.get(i) + " on the " + dice.get(i) + "-sided die,");
 			}
 		}
-		Set<Integer> ns = new HashSet<>(randomDiceAmounts);
+		Set<Integer> ns = new HashSet<Integer>(randomDiceAmounts);
 		int sameDice = randomDiceAmounts.size() - ns.size();
-		Map<String, String> maps = new HashMap<>();
+		Map<String, String> maps = new HashMap<String, String>();
 		maps.put("GUI",String.join("\n", outString));
 
 		sameDice = (sameDice > 0) ? (sameDice + 1) : sameDice;
-		Map<Integer, String> wordvals;
-		wordvals = new HashMap<>();
+		Map<Integer, String> wordvals = new HashMap<Integer, String>();
 		wordvals.put(0, "All of them show different numbers.");
 		wordvals.put(2, "Exactly Two of them show the same number.");
 		wordvals.put(3, "All 3 Dice show the same number!");
@@ -37,14 +36,14 @@ public class Project11 {
 	}
 
 	public static void ask(List<Integer> inps) {
-		List<String> strings = new ArrayList<>();
+		List<String> strings = new ArrayList<String>();
 		String last = String.valueOf(inps.get(inps.size()-1));
 		for (Integer i: inps) {
 			if (!Objects.equals(i, inps.get(inps.size() - 1))) {
 				strings.add(String.valueOf(i));
 			}
 		}
-		String joinedDice = String.join(", ", strings)+", and "+last;
+		String joinedDice = String.join(", ", strings) + ", and " + last;
 		showMessageDialog(null,"Press 'OK' to roll "+joinedDice+" sided dice");
 	}
 

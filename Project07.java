@@ -8,12 +8,16 @@ public class Project07 {
 		char cAT = inpString.charAt(indx);
 		String og = String.valueOf(cAT);
 		Object rObject;
-		switch (type) {
-			case "bool" -> rObject = Boolean.parseBoolean(og);
-			case "int" -> rObject = (int) Math.round(Double.parseDouble(og));
-			case "double" -> rObject = Double.parseDouble(og);
-			case "char" -> rObject = cAT;
-			default -> rObject = og;
+		if ("bool".equals(type)) {
+			rObject = Boolean.parseBoolean(og);
+		} else if ("int".equals(type)) {
+			rObject = (int) Math.round(Double.parseDouble(og));
+		} else if ("double".equals(type)) {
+			rObject = Double.parseDouble(og);
+		} else if ("char".equals(type)) {
+			rObject = cAT;
+		} else {
+			rObject = og;
 		}
 
 		return rObject;
@@ -67,23 +71,19 @@ public class Project07 {
 		double firstNumber = Double.parseDouble(firstInput);
 		double secondNumber = Double.parseDouble(secondInput);
 		String divMessage = isDivisibleBy(firstNumber,secondNumber,false);
-		System.out.printf("""
-			Your First Number was %1$s
-			Your Second Number was %2$s
-			Does the Second Number Divide the First Number?
-			[RESULT] %3$s%n
-			Is the Right Most Digit Odd?
-			%4$s%n
-			""",
-			firstNumber, secondNumber, divMessage,
-			isOdd(firstNumber, (firstInput).length() - 1, true)
+		System.out.printf(
+				"Your First Number was %1$s\nYour Second Number was %2$s\nDoes the Second Number Divide the First Number?\n[RESULT] %3$s%n\nIs the Right Most Digit Odd?\n%4$s%n",
+				firstNumber,
+				secondNumber,
+				divMessage,
+				isOdd(firstNumber, (firstInput).length() - 1, true)
 		);
 
 		for (int i = 1; i < 4; i++) {
 			System.out.println(nthPosOfNumber(firstInput, i));
 		}
 
-		String indxAsString = showInputDialog("Enter the Number Position (R->L, 1 -> %d)".formatted(firstInput.length()));
+		String indxAsString = showInputDialog("Enter the Number Position (R->L, 1 -> "+firstInput.length()+")");
 		int indx = (int) Math.round(Double.parseDouble(indxAsString));
 		System.out.println(nthPosOfNumber(firstInput,indx));
 	}

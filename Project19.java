@@ -1,19 +1,40 @@
 import java.util.*;
 import java.text.MessageFormat;
 
-import static java.util.stream.Collectors.toCollection;
-
 public class Project19 {
 
-	public static List<Integer> randList(Integer amt) {
+	public static boolean dnHaveItem(int[] lst, Object itm) {
+		for (int i : lst) {
+			if (Objects.equals(i,itm)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static int[] sublist(int[] lst, int start, int end) {
+		int[] cSlice = new int[end-start];
+		System.arraycopy(lst, start, cSlice, 0, cSlice.length);
+		return cSlice;
+	}
+
+	public static String[] sublist(String[] lst, int start, int end) {
+		String[] cSlice = new String[end-start];
+		System.arraycopy(lst, start, cSlice, 0, cSlice.length);
+		return cSlice;
+	}
+
+	public static int[] randList(Integer amt) {
 		Random rand = new Random();
-		List<Integer> list = new ArrayList<>();
-		Integer integer = 10000000;
+		int[] list = new int[amt];
+		int integer = 10000000;
+		int indx = 0;
 		for (int i = 0; i < amt; i++) {
-			while (!list.contains(integer)) {
+			while (dnHaveItem(list, integer)) {
 				integer = rand.nextInt(100) + 1;
-				if (!list.contains(integer)) {
-					list.add(integer);
+				if (dnHaveItem(list, integer)) {
+					list[indx] = integer;
+					indx += 1;
 				}
 			}
 			integer = 100000;
@@ -21,17 +42,15 @@ public class Project19 {
 		return list;
 	}
 
-	public static ArrayList<String> reverse(List<String> lst) {
-		ArrayList<String> lout = new ArrayList<>();
-		for (int i = lst.size() - 1; i >= 0; i--) {
-			lout.add(lst.get(i));
-		}
+	public static String[] reverse(String[] lst) {
+		String[] lout = new String[lst.length];
+		System.arraycopy(lst, 0, lout, 0, lst.length - 1 + 1);
 		return lout;
 	}
 
-	public static Integer max(List<Integer> lst) {
-		int greatest = lst.get(0);
-		for (Integer pos : lst) {
+	public static Integer max(int[] lst) {
+		int greatest = lst[0];
+		for (int pos : lst) {
 			if ( pos > greatest ) {
 				greatest = pos;
 			}
@@ -39,58 +58,65 @@ public class Project19 {
 		return greatest;
 	}
 
-	public static List<Integer> minIndex(List<Integer> lst) {
-		int smallest = lst.get(0);
+	public static int[] minIndex(int[] lst) {
+		int smallest = lst[0];
 		int indx = 0;
-		for (int i = lst.size() - 1; i > 0; i--) {
-			Integer pos = lst.get(i);
+		for (int i = lst.length - 1; i > 0; i--) {
+			int pos = lst[i];
 			if (pos < smallest) {
 				smallest = pos;
 				indx = i;
 			}
 		}
-		return Arrays.asList(smallest,indx);
+		return new int[]{ smallest, indx };
 	}
 
-	public static String posInList(List<Integer> lst, Integer chr2Get) {
-		List<String> lstout = new ArrayList<>();
-		if (!lst.contains(chr2Get)) {
+	public static String posInList(int[] lst, int chr2Get) {
+		String[] lstout = new String[lst.length];
+		if (dnHaveItem(lst, chr2Get)) {
 			return "-1";
 		}
-		for (int i = 0; i < lst.size(); i++) {
-			if (Objects.equals(lst.get(i), chr2Get)) {
-				lstout.add(String.valueOf(i));
+		int indx = 0;
+		for (int i = 0; i < lst.length; i++) {
+			if (Objects.equals(lst[i], chr2Get)) {
+				lstout[indx] = (String.valueOf(i));
+				indx += 1;
 			}
 		}
 		return String.join(" ", lstout);
 	}
 
-	public static String weirdRot(List<Integer> input, Integer pos, Boolean rMain) {
-		List<String> listB = new ArrayList<>();
-		for (Integer integer2 : input.subList(0, pos)) {
+	public static String weirdRot(int[] input, int pos, boolean rMain) {
+		String[] listB = new String[pos];
+		int indx_1 = 0;
+		int[] sublist = sublist(input, 0, pos);
+		for (Integer integer2 : sublist) {
 			String of = String.valueOf(integer2);
-			listB.add(of);
+			listB[indx_1] = of;
+			indx_1 += 1;
 		}
-		List<String> listM = List.of(String.valueOf(input.get(pos)));
-		List<String> listE = new ArrayList<>();
-		for (Integer integer1 : input.subList(pos + 1, input.size())) {
+		String[] listM = new String[]{String.valueOf(input[pos])};
+		String[] listE = new String[input.length - pos - 1];
+		int indx_2 = 0;
+		for (Integer integer1 : sublist(input, pos + 1, input.length)) {
 			String valueOf = String.valueOf(integer1);
-			listE.add(valueOf);
+			listE[indx_2] = valueOf;
+			indx_2 += 1;
 		}
 
-		Integer amountValid = Collections.min(List.of(listB.size(),listE.size()));
-		List<String> begNoFlip = listB.subList(0, listB.size()-amountValid);
-		List<String> begFlip = listB.subList(listB.size()-amountValid, listB.size());
-		Collections.reverse(begFlip);
+		int amountValid = minIndex(new int[]{ listB.length,listE.length })[0];
+		String[] begNoFlip = sublist(listB, 0, listB.length-amountValid);
+		String[] begFlip = sublist(listB, listB.length-amountValid, listB.length);
+		begFlip = reverse(begFlip);
 
-		List<String> endNoFlip = listE.subList(amountValid, listE.size());
-		List<String> endFlip = listE.subList(0, amountValid);
+		String[] endNoFlip = sublist(listE, amountValid, listE.length);
+		String[] endFlip = sublist(listE, 0, amountValid);
 		endFlip = reverse(endFlip);
+
 		if (rMain) {
-			List<String> list = new ArrayList<>();
-			for (Integer integer : input) {
-				String s = String.valueOf(integer);
-				list.add(s);
+			String[] list = new String[input.length];
+			for (int i = 0; i < input.length; i++) {
+				list[i] = String.valueOf(input[i]);
 			}
 			System.out.println(String.join(" ", list));
 		}
@@ -103,20 +129,22 @@ public class Project19 {
 		);
 	}
 
-	public static String adjacent(List<Integer> input, Integer pos) {
-		List<String> inputStrings = List.of(weirdRot(input, pos, false).split(" "));
+	public static String adjacent(int[] input, int pos) {
+		String[] inputStrings = weirdRot(input, pos, false).split(" ");
 		StringBuilder lists = new StringBuilder();
-		for (int i = 0; i <= inputStrings.size(); i++) {
+		for (int i = 0; i <= inputStrings.length; i++) {
 			int g = i*2;
 			try {
-				List<String> lst2Add = new ArrayList<>(List.of(inputStrings.get(g), inputStrings.get(g + 1)));
-				Collections.reverse(lst2Add);
-				lists.append(lst2Add.get(0));
+				String[] lst2Add = new String[]{ inputStrings[g], inputStrings[g + 1] };
+				lists.append(lst2Add[1]);
 				lists.append(" ");
-				lists.append(lst2Add.get(1));
+				lists.append(lst2Add[0]);
 				lists.append(" ");
 			} catch (Exception ignored) {}
 
+		}
+		if (inputStrings.length % 2 != 0) {
+			lists.append(inputStrings[inputStrings.length - 1]);
 		}
 		return lists.toString();
 	}
@@ -125,8 +153,8 @@ public class Project19 {
 		int lengthList = 15;
 
 		Random rand = new Random();
-		List<Integer> genList = randList(lengthList);
-		Integer pos2Rot = rand.nextInt(lengthList-3)+2;
+		int[] genList = randList(lengthList);
+		int pos2Rot = rand.nextInt(lengthList-3)+2;
 		System.out.println(MessageFormat.format("""
 				Max Value: {0}
 				Index of Minimum Value: {1}
@@ -135,7 +163,7 @@ public class Project19 {
 				Adjacent Values Swapped: {6}
 				""",
 				max(genList),
-				minIndex(genList).get(1),
+				minIndex(genList)[1],
 				12,
 				posInList(genList,12),
 				pos2Rot,
